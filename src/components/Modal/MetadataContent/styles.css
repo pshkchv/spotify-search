@@ -1,0 +1,43 @@
+.container {
+  width: 100%;
+  max-height: 90%;
+}
+
+.image {
+  display: block;
+  max-width: 100%; 
+  height: auto; 
+  margin: 0 auto;
+}
+
+.artistsAlbumImageContainer {
+  display: flex;
+  margin: 1rem auto;
+  background-color: #eee;
+}
+
+.albumName {
+  margin: auto;
+}
+
+.artistsAlbumImage {
+  display: block;
+  max-width: 100px;
+  height: auto;
+}
+
+.closeButton {
+  background-color: red; 
+  color: white; 
+  border: none;
+  cursor: pointer;
+  padding: .25rem 1rem;
+  border-radius: 5px;
+  margin-bottom: 1.25rem;
+}
+
+@media (max-width: 600px) {
+  .image {
+    max-width: 90%;
+  }
+}

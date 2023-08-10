@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { throttle } from 'lodash';
 import { DebouncedInput } from '../DebouncedInput';
+import { Modal } from '../Modal';
 import './styles.css';
 import { searchReq } from '../../api/searchReq';
 import { getToken } from '../../api/getToken';
@@ -43,6 +44,10 @@ export const SpotifySearch = () => {
 
   const handleItemClick = (type, item) => {
     setSelectedItem({ type, data: item });
+  };
+
+  const closeModal = () => {
+    setSelectedItem(null);
   };
 
   const handleItemCountChange = (e) => {
@@ -95,6 +100,8 @@ export const SpotifySearch = () => {
           ))}
         </div>
       )}
+
+      <Modal isOpen={!!selectedItem} onClose={closeModal} item={selectedItem} accessToken={accessToken} />
     </div>
   );
 };

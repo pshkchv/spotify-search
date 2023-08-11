@@ -27,6 +27,5 @@ export const searchReq = async (accessToken, query, itemCount) => {
     } else {
       console.error('Failed to fetch results', error);
     }
-    throw error;
   }
 };

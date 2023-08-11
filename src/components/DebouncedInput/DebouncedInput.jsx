@@ -18,5 +18,12 @@ export const DebouncedInput = ({ onValueChange, debounceTime = 500 }) => {
     };
   }, [inputValue, onValueChange, debounceTime]);
 
-  return <input className="materialInput" value={inputValue} onChange={e => setInputValue(e.target.value)} />;
-}
+  return (
+    <input
+      className='materialInput'
+      value={inputValue}
+      onChange={(e) => setInputValue(e.target.value)}
+      placeholder='What do you want to find?'
+    />
+  );
+};

@@ -1,12 +1,12 @@
 .appContainer {
-  font-family: 'Arial, sans-serif';
+  font-family: 'Helvetica', Arial, sans-serif;
   text-align: center;
   padding: 1rem 10vw;
 }
 
 .header {
-  background-color: #1ED760; /* Spotify's green color */
-  padding: .75rem 0;
+  background-color: #1ed760; /* Spotify's green color */
+  padding: 0.75rem 0;
   color: white;
 }
 

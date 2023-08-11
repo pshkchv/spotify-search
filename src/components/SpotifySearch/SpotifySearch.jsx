@@ -1,10 +1,11 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { throttle } from 'lodash';
 import { DebouncedInput } from '../DebouncedInput';
 import { Modal } from '../Modal';
 import './styles.css';
 import { searchReq } from '../../api/searchReq';
 import { getToken } from '../../api/getToken';
+import { TABS_DATA } from '../../const';
 
 export const SpotifySearch = () => {
   const [accessToken, setAccessToken] = useState(null);
@@ -12,6 +13,7 @@ export const SpotifySearch = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [itemCount, setItemCount] = useState(5);
+  const [activeTab, setActiveTab] = useState('artists');
   const lastQueryRef = useRef('');
 
   useEffect(() => {
@@ -46,9 +48,9 @@ export const SpotifySearch = () => {
     setSelectedItem({ type, data: item });
   };
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setSelectedItem(null);
-  };
+  }, []);
 
   const handleItemCountChange = (e) => {
     setItemCount(parseInt(e.target.value, 10));
@@ -64,43 +66,65 @@ export const SpotifySearch = () => {
 
   return (
     <div className='container'>
-      <DebouncedInput onValueChange={searchSpotify} className='searchInput' />
+      <div className='input-container'>
+        <DebouncedInput onValueChange={searchSpotify} className='searchInput' />
 
-      <label>
-        Number of Items:
-        <input type='number' value={itemCount} onChange={handleItemCountChange} min='1' max='50' />
-      </label>
+        <label>
+          {`Number of Items: `}
+          <input type='number' value={itemCount} onChange={handleItemCountChange} min='1' max='50' />
+        </label>
+      </div>
+
+      <div className='tabs'>
+        {TABS_DATA.map((tab) => (
+          <div
+            key={tab.value}
+            className={`tab ${activeTab === tab.value ? 'active' : ''}`}
+            onClick={() => setActiveTab(tab.value)}
+          >
+            {tab.label}
+          </div>
+        ))}
+      </div>
 
       {isLoading ? (
         <p className='text-center'>Loading...</p>
       ) : (
         <div>
-          <h3>Artists:</h3>
-          {results.artists?.items.map((artist) => (
-            <div key={artist.id} onClick={() => handleItemClick('artist', artist)} className='item'>
-              <img className='itemImage' src={artist.images[0]?.url} alt={artist.name} />
-              <p>{artist.name}</p>
+          {activeTab === 'artists' && (
+            <div>
+              {results.artists?.items.map((artist) => (
+                <div key={artist.id} onClick={() => handleItemClick('artist', artist)} className='item'>
+                  <img className='itemImage' src={artist.images[0]?.url} alt={artist.name} />
+                  <p>{artist.name}</p>
+                </div>
+              ))}
             </div>
-          ))}
+          )}
 
-          <h3>Albums:</h3>
-          {results.albums?.items.map((album) => (
-            <div key={album.id} onClick={() => handleItemClick('album', album)} className='item'>
-              <img className='itemImage' src={album.images[0]?.url} alt={album.name} />
-              <p>{album.name}</p>
+          {activeTab === 'albums' && (
+            <div>
+              {results.albums?.items.map((album) => (
+                <div key={album.id} onClick={() => handleItemClick('album', album)} className='item'>
+                  <img className='itemImage' src={album.images[0]?.url} alt={album.name} />
+                  <p>{album.name}</p>
+                </div>
+              ))}
             </div>
-          ))}
+          )}
 
-          <h3>Tracks:</h3>
-          {results.tracks?.items.map((track) => (
-            <div key={track.id} onClick={() => handleItemClick('track', track)} className='item'>
-              <img className='itemImage' src={track.album.images[0]?.url} alt={track.name} />
-              <p>{track.name}</p>
+          {activeTab === 'tracks' && (
+            <div>
+              {results.tracks?.items.map((track) => (
+                <div key={track.id} onClick={() => handleItemClick('track', track)} className='item'>
+                  <img className='itemImage' src={track.album.images[0]?.url} alt={track.name} />
+                  <p>{track.name}</p>
+                </div>
+              ))}
             </div>
-          ))}
+          )}
         </div>
       )}
-
       <Modal isOpen={!!selectedItem} onClose={closeModal} item={selectedItem} accessToken={accessToken} />
     </div>
   );

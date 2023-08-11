@@ -3,9 +3,13 @@
   margin: 0 auto;
 }
 
+.input-container {
+  margin-bottom: 20px;
+}
+
 .searchInput {
   width: 100%;
-  padding: .75rem;
+  padding: 0.75rem;
   margin-bottom: 1.25rem;
   border-radius: 5px;
   border: 1px solid #ddd;
@@ -40,13 +44,38 @@
   cursor: pointer;
 }
 
+.tabs {
+  display: flex;
+  justify-content: center;
+  border-bottom: 2px solid #1DB954;
+  margin-bottom: 20px;
+}
+
+.tab {
+  padding: 10px 20px;
+  cursor: pointer;
+  color: #1DB954;
+  transition: background-color 0.3s;
+  border-radius: 5px 5px 0 0;
+}
+
+.tab:hover {
+  background-color: rgba(29, 185, 84, 0.1); /* Light green on hover */
+}
+
+.tab.active {
+  background-color: #1DB954;
+  color: #ffffff;
+}
+
 .item {
   border: 1px solid #ddd;
   border-radius: 5px;
-  padding: .75rem;
-  margin: .75rem 0;
+  padding: 0.75rem;
+  margin: 0.75rem 0;
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .itemImage {
